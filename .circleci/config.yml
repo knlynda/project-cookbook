@@ -1,0 +1,56 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.2.0
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.7.0
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "Gemfile.lock" }}
+            - v2-dependencies-
+      - run:
+          name: Install Bundler
+          command: |
+            gem install bundler
+
+      - run:
+          name: Set bundle path
+          command: |
+            bundle config set path 'vendor/bundle'
+
+      - run:
+          name: Install Dependencies
+          command: |
+            bundle install --jobs=4 --retry=3
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Precompile assets
+          command: |
+            bundle exec rake assets:precompile
+
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop -c .rubocop.yml
+
+      - run:
+          name: Run Tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+
+            bundle exec rspec \
+              --format progress \
+              $TEST_FILES
