@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: bash -c "bundle exec rake assets:precompile assets:clean && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/project-cookbook
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV
+      - RACK_ENV
+      - SECRET_KEY_BASE
+      - RAILS_SERVE_STATIC_FILES
+      - RAILS_LOG_TO_STDOUT
+      - CONTENTFUL_API_URL
+      - CONTENTFUL_SPACE
+      - CONTENTFUL_ENV
+      - CONTENTFUL_AUTH_TOKEN
