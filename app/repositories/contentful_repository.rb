@@ -11,12 +11,17 @@ class ContentfulRepository
     :contentful_recipes_factory
   ]
 
-  def request_recipes(limit:, skip:, conditions: {})
-    options = build_recipes_request_options(limit: limit, skip: skip, conditions: conditions)
+  def fetch_recipes(limit:, skip:)
+    request_recipes(limit: limit, skip: skip).bind do |contentful_recipes|
+      Success(::Internal::Recipes.build_from_contentful_recipes(contentful_recipes))
+    end
+  end
 
-    http_repository.get(entities_url, **options).bind do |response|
-      parsed_response = ::JSON.parse(response.body)
-      Success(contentful_recipes_factory.call(parsed_response))
+  def fetch_recipe(id:)
+    request_recipes(limit: 1, skip: 0, conditions: { 'sys.id': id }).bind do |contentful_recipes|
+      return Failure(:recipe_not_found_error) if contentful_recipes.total.zero?
+
+      Success(::Internal::Recipe.build_from_contentful_recipe(contentful_recipes.items.first))
     end
   end
 
@@ -39,5 +44,14 @@ class ContentfulRepository
         **conditions
       }
     }
+  end
+
+  def request_recipes(limit:, skip:, conditions: {})
+    options = build_recipes_request_options(limit: limit, skip: skip, conditions: conditions)
+
+    http_repository.get(entities_url, **options).bind do |response|
+      parsed_response = ::JSON.parse(response.body)
+      Success(contentful_recipes_factory.call(parsed_response))
+    end
   end
 end
