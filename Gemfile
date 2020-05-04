@@ -15,6 +15,7 @@ gem 'redcarpet'
 gem 'sass-rails'
 
 group :test do
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'vcr'
   gem 'webmock'
