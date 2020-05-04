@@ -113,4 +113,6 @@ AllCops:
   TargetRubyVersion: 2.7.0
   CacheRootDirectory: tmp/test-results
   Exclude:
+    - bin/*
+    - vendor/**/*
     - bin/**
