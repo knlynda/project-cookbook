@@ -1,0 +1,10 @@
+<% recipes.items.each do |recipe| %>
+  <div class="list-item">
+    <div class="image">
+      <img alt="<%= recipe.title %>" src="<%= recipe.image_url %>"/>
+    </div>
+    <div class="title">
+      <%= link_to(recipe.title, recipe_path(recipe.id)) %>
+    </div>
+  </div>
+<% end %>

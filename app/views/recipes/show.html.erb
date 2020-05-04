@@ -1,0 +1,27 @@
+<div id="card">
+  <div class="image">
+    <img alt="<%= recipe.title %>" src="<%= recipe.image_url %>" />
+  </div>
+
+  <div class="data">
+    <h2><%= recipe.title %></h2>
+
+    <% if recipe.chef_name %>
+      <div class="data-item">
+        <strong>Chef: </strong><%= recipe.chef_name %><br/>
+      </div>
+    <% end %>
+
+    <% if recipe.tags.present? %>
+      <div class="data-item">
+        <strong>Tags: </strong>
+        <%= recipe.tags.join(", ") %>
+      </div>
+    <% end %>
+
+    <div class="data-item">
+      <strong>Description: </strong>
+      <%= render_html_from_markdown(recipe.description) %>
+    </div>
+  </div>
+</div>

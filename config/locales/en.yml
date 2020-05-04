@@ -30,4 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  errors:
+    recipe_not_found_error:      Recipe not found
+    http_request_error:          Recipe could not be shown
+    http_application_error:      Recipe could not be shown
+    http_unknown_response_error: Recipe could not be shown
+

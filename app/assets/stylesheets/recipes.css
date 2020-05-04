@@ -1,0 +1,40 @@
+* {
+  font-family: arial, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none
+}
+
+#page {
+  margin: 24px 48px;
+}
+
+#navigation {
+  margin-bottom: 24px;
+}
+
+#content .list-item {
+  overflow: hidden;
+  padding-bottom: 12px;
+}
+
+#content .list-item .image {
+  float: left;
+  width: 64px;
+}
+
+#content .list-item .title {
+  float: left;
+  line-height: 48px;
+  height: 48px;
+  padding-left: 12px;
+}
+
+#content #card .data-item {
+  padding: 6px 0;
+}

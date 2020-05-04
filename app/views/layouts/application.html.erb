@@ -9,6 +9,13 @@
   </head>
 
   <body>
-  <%= yield %>
+    <div id="page">
+      <div id="navigation">
+        <%= link_to('HOME', root_path) %>
+      </div>
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
